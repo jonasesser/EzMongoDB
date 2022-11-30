@@ -338,7 +338,7 @@ var Database = {
     * @return {Promise<T[]>}
     * @memberof Database
     */
-    fetchCountByField: function (key, value, sortKey, collectionName) { return __awaiter(void 0, void 0, void 0, function () {
+    fetchCountByField: function (key, value, collectionName) { return __awaiter(void 0, void 0, void 0, function () {
         var collection;
         var _a;
         return __generator(this, function (_b) {
@@ -348,7 +348,7 @@ var Database = {
                         console.error("value passed in fetchPageByField cannot be null or undefined");
                         return [2 /*return*/, 0];
                     }
-                    if (!key || !sortKey || !collectionName) {
+                    if (!key || !collectionName) {
                         console.error("Failed to specify key, value, sortKey or collectionName for fetchPageByField.");
                         return [2 /*return*/, 0];
                     }

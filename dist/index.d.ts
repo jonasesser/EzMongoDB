@@ -64,7 +64,7 @@ declare const Database: {
     * @return {Promise<T[]>}
     * @memberof Database
     */
-    fetchCountByField: <T_3>(key: string, value: any, sortKey: string, collectionName: string) => Promise<number>;
+    fetchCountByField: <T_3>(key: string, value: any, collectionName: string) => Promise<number>;
     /**
      * Get all elements from a collection.
      * @static

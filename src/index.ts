@@ -236,13 +236,13 @@ const Database = {
      * @return {Promise<T[]>}
      * @memberof Database
      */
-    fetchCountByField: async <T>(key: string, value: any, sortKey: string, collectionName: string): Promise<number> => {
+    fetchCountByField: async <T>(key: string, value: any, collectionName: string): Promise<number> => {
         if (value === undefined || value === null) {
             console.error(`value passed in fetchPageByField cannot be null or undefined`);
             return 0;
         }
 
-        if (!key || !sortKey || !collectionName) {
+        if (!key || !collectionName) {
             console.error(`Failed to specify key, value, sortKey or collectionName for fetchPageByField.`);
             return 0;
         }
