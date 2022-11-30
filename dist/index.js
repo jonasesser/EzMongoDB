@@ -328,6 +328,45 @@ var Database = {
         });
     }); },
     /**
+    * Get page count of data that matches a key and value pair as an array.
+    * Use case: Fetching pagec count of message who have a specific id, sorted by date.
+    * @static
+    * @template T
+    * @param {string} key
+    * @param {*} value
+    * @param {string} collectionName
+    * @return {Promise<T[]>}
+    * @memberof Database
+    */
+    fetchCountByField: function (key, value, sortKey, collectionName) { return __awaiter(void 0, void 0, void 0, function () {
+        var collection;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (value === undefined || value === null) {
+                        console.error("value passed in fetchPageByField cannot be null or undefined");
+                        return [2 /*return*/, 0];
+                    }
+                    if (!key || !sortKey || !collectionName) {
+                        console.error("Failed to specify key, value, sortKey or collectionName for fetchPageByField.");
+                        return [2 /*return*/, 0];
+                    }
+                    return [4 /*yield*/, hasInitialized()];
+                case 1:
+                    _b.sent();
+                    if (key === '_id' && typeof key !== 'object') {
+                        value = new mongodb_1.ObjectId(value);
+                    }
+                    return [4 /*yield*/, db.collection(collectionName)];
+                case 2:
+                    collection = _b.sent();
+                    return [4 /*yield*/, collection.find((_a = {}, _a[key] = value, _a)).count()];
+                case 3: return [2 /*return*/, _b.sent()];
+            }
+        });
+    }); },
+    /**
      * Get all elements from a collection.
      * @static
      * @template T

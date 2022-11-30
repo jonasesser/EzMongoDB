@@ -225,6 +225,39 @@ const Database = {
         return await collection.find<T>({ [key]: value }).sort(sort).skip(page*rowsPerPage).limit(rowsPerPage).toArray();
     },
 
+     /**
+     * Get page count of data that matches a key and value pair as an array.
+     * Use case: Fetching pagec count of message who have a specific id, sorted by date.
+     * @static
+     * @template T
+     * @param {string} key
+     * @param {*} value
+     * @param {string} collectionName
+     * @return {Promise<T[]>}
+     * @memberof Database
+     */
+    fetchCountByField: async <T>(key: string, value: any, sortKey: string, collectionName: string): Promise<number> => {
+        if (value === undefined || value === null) {
+            console.error(`value passed in fetchPageByField cannot be null or undefined`);
+            return 0;
+        }
+
+        if (!key || !sortKey || !collectionName) {
+            console.error(`Failed to specify key, value, sortKey or collectionName for fetchPageByField.`);
+            return 0;
+        }
+
+        await hasInitialized();
+
+        if (key === '_id' && typeof key !== 'object') {
+            value = new ObjectId(value);
+        }
+
+        const collection = await db.collection(collectionName);
+
+        return await collection.find<T>({ [key]: value }).count();
+    },
+
     /**
      * Get all elements from a collection.
      * @static

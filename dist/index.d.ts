@@ -54,6 +54,18 @@ declare const Database: {
      */
     fetchPageByField: <T_2>(key: string, value: any, sortKey: string, sortDirection: number, page: number, rowsPerPage: number, collectionName: string) => Promise<T_2[]>;
     /**
+    * Get page count of data that matches a key and value pair as an array.
+    * Use case: Fetching pagec count of message who have a specific id, sorted by date.
+    * @static
+    * @template T
+    * @param {string} key
+    * @param {*} value
+    * @param {string} collectionName
+    * @return {Promise<T[]>}
+    * @memberof Database
+    */
+    fetchCountByField: <T_3>(key: string, value: any, sortKey: string, collectionName: string) => Promise<number>;
+    /**
      * Get all elements from a collection.
      * @static
      * @template T
@@ -61,7 +73,7 @@ declare const Database: {
      * @return {Promise<Array<T[]>>}
      * @memberof Database
      */
-    fetchAllData: <T_3>(collectionName: string) => Promise<T_3[]>;
+    fetchAllData: <T_4>(collectionName: string) => Promise<T_4[]>;
     /**
      * Creates a search index for a specific 'text' field. Requires a 'string' field. Not numbers.
      * Use case: Searching for all users with 'Johnny' in their 'name' key.
@@ -84,7 +96,7 @@ declare const Database: {
      * @return {Promise<T[]>}
      * @memberof Database
      */
-    fetchWithSearch: <T_4>(searchTerm: string, collectionName: string) => Promise<T_4[]>;
+    fetchWithSearch: <T_5>(searchTerm: string, collectionName: string) => Promise<T_5[]>;
     /**
      * Insert a document and return the new full document with _id.
      * Use case: Insert a new entry into the database.
@@ -94,7 +106,7 @@ declare const Database: {
      * @returns {Promise<T | null>} Document
      * @template T
      */
-    insertData: <T_5>(document: T_5, collection: string, returnDocument?: boolean) => Promise<T_5>;
+    insertData: <T_6>(document: T_6, collection: string, returnDocument?: boolean) => Promise<T_6>;
     /**
      * Modify an existing document in the database. Must have an _id first to modify data.
      * Use case: Update an existing document with new data, or update existing data.
@@ -136,7 +148,7 @@ declare const Database: {
      * @return {Promise<T[]>}
      * @memberof Database
      */
-    selectData: <T_6>(collection: string, keys: string[]) => Promise<T_6[]>;
+    selectData: <T_7>(collection: string, keys: string[]) => Promise<T_7[]>;
     /**
      * Uses default mongodb element match functionality.
      *
@@ -147,9 +159,9 @@ declare const Database: {
      * @param {{ [key: string]: any }} elementMatch
      * @returns
      */
-    selectWithElementMatch: <T_7>(collection: string, propertyName: string, elementMatch: {
+    selectWithElementMatch: <T_8>(collection: string, propertyName: string, elementMatch: {
         [key: string]: any;
-    }) => Promise<T_7[]>;
+    }) => Promise<T_8[]>;
     /**
      * Update any data that matches specified field name and value.
      * Use case: Could be used to migrate old field values to new field values in bulk in a collection.
