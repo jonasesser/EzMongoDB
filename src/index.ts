@@ -186,6 +186,42 @@ const Database = {
     },
 
     /**
+     * Fetch page of data that matches a key and value pair as an array.
+     * Use case: Fetching page of message who have a specific id, sorted by date.
+     * @static
+     * @template T
+     * @param {string} key
+     * @param {*} value
+     * @param {string} sortKey, the key to sort. eg. date
+     * @param {number} sortDirection, the sort direction 1 = desc, -1 = asc
+     * @param {number} page, the 0-based page number (0-X), if page = 1 you will get the second page
+     * @param {number} rowsPerPage, the number of rows per page
+     * @param {string} collectionName
+     * @return {Promise<T[]>}
+     * @memberof Database
+     */
+     fetchPageByField: async <T>(key: string, value: any, sortKey: string, sortDirection: number, page: number, rowsPerPage: number, collectionName: string): Promise<T[]> => {
+        if (value === undefined || value === null) {
+            console.error(`value passed in fetchPageByField cannot be null or undefined`);
+            return null;
+        }
+
+        if (!key || !sortKey || !collectionName) {
+            console.error(`Failed to specify key, value, sortKey or collectionName for fetchPageByField.`);
+            return [];
+        }
+
+        await hasInitialized();
+
+        if (key === '_id' && typeof key !== 'object') {
+            value = new ObjectId(value);
+        }
+
+        const collection = await db.collection(collectionName);
+        return await collection.find<T>({ [key]: value }).sort({sortKey, sortDirection}).skip(page*rowsPerPage).limit(rowsPerPage);
+    },
+
+    /**
      * Get all elements from a collection.
      * @static
      * @template T
