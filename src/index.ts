@@ -218,7 +218,11 @@ const Database = {
         }
 
         const collection = await db.collection(collectionName);
-        return await collection.find<T>({ [key]: value }).sort({sortKey, sortDirection}).skip(page*rowsPerPage).limit(rowsPerPage);
+
+        var sort = {};
+        sort[sortKey] = sortDirection;
+
+        return await collection.find<T>({ [key]: value }).sort(sort).skip(page*rowsPerPage).limit(rowsPerPage).toArray();
     },
 
     /**

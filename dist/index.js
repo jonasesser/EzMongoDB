@@ -283,6 +283,51 @@ var Database = {
         });
     }); },
     /**
+     * Fetch page of data that matches a key and value pair as an array.
+     * Use case: Fetching page of message who have a specific id, sorted by date.
+     * @static
+     * @template T
+     * @param {string} key
+     * @param {*} value
+     * @param {string} sortKey, the key to sort. eg. date
+     * @param {number} sortDirection, the sort direction 1 = desc, -1 = asc
+     * @param {number} page, the 0-based page number (0-X), if page = 1 you will get the second page
+     * @param {number} rowsPerPage, the number of rows per page
+     * @param {string} collectionName
+     * @return {Promise<T[]>}
+     * @memberof Database
+     */
+    fetchPageByField: function (key, value, sortKey, sortDirection, page, rowsPerPage, collectionName) { return __awaiter(void 0, void 0, void 0, function () {
+        var collection, sort;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (value === undefined || value === null) {
+                        console.error("value passed in fetchPageByField cannot be null or undefined");
+                        return [2 /*return*/, null];
+                    }
+                    if (!key || !sortKey || !collectionName) {
+                        console.error("Failed to specify key, value, sortKey or collectionName for fetchPageByField.");
+                        return [2 /*return*/, []];
+                    }
+                    return [4 /*yield*/, hasInitialized()];
+                case 1:
+                    _b.sent();
+                    if (key === '_id' && typeof key !== 'object') {
+                        value = new mongodb_1.ObjectId(value);
+                    }
+                    return [4 /*yield*/, db.collection(collectionName)];
+                case 2:
+                    collection = _b.sent();
+                    sort = {};
+                    sort[sortKey] = sortDirection;
+                    return [4 /*yield*/, collection.find((_a = {}, _a[key] = value, _a)).sort(sort).skip(page * rowsPerPage).limit(rowsPerPage).toArray()];
+                case 3: return [2 /*return*/, _b.sent()];
+            }
+        });
+    }); },
+    /**
      * Get all elements from a collection.
      * @static
      * @template T
